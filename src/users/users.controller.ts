@@ -24,7 +24,7 @@ export class UsersController{
         return this.userService.update(id, updateUserDto);
     }
 
-    @Delete('delete/:id')
+    @Delete('deleteUser/:id')
     async deleteUser(@Param('id') id: number): Promise<User | null>{
         return this.userService.delete(id);
     }

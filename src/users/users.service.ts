@@ -17,8 +17,17 @@ export class UsersService{
         return this.userRepository.findOneBy({id});
     }
 
+    findOneByUsername(username: string): Promise<User| null>{
+        return this.userRepository.findOne({where: {username}});
+    }
+
     async remove(id: number): Promise<void>{
-        await this.userRepository.delete(id);
+        const user = await this.findOne(id);
+        if (!user){
+            throw new Error(`User with Id ${id} not found`);
+        }
+        await this.userRepository.remove(user);
+        // await this.userRepository.delete(id);
     }
 
     creatUser(creatUserDto: CreatUserDto): Promise<User>{
