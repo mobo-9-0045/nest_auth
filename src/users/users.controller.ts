@@ -4,6 +4,7 @@ import { User } from "./user.entity";
 import { CreatUserDto } from "./dto/creat.user.dto";
 import { UpdateUserDto } from "./dto/update.user.dto";
 import { AuthGuard } from "src/auth/auth.guard";
+import { ResponseUserDto } from "./dto/res.user.dto";
 
 
 @Controller('users')
@@ -17,8 +18,8 @@ export class UsersController{
 
     @Get('user/:id')
     @UseGuards(AuthGuard)
-    async getUserById(@Param('id') id: number): Promise<User | null>{
-        return this.userService.findOne(id);
+    async getUserById(@Param('id') id: number): Promise<ResponseUserDto | null>{
+        return this.userService.findOneById(id);
     }
 
     @Post('createUser')
