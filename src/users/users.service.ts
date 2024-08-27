@@ -4,6 +4,7 @@ import { User } from "./user.entity";
 import { Repository, UpdateResult } from "typeorm";
 import { CreatUserDto } from "./dto/creat.user.dto";
 import { UpdateUserDto } from "./dto/update.user.dto";
+import { ResponseUserDto } from "./dto/res.user.dto";
 
 @Injectable()
 export class UsersService{
@@ -15,6 +16,20 @@ export class UsersService{
 
     findOne(id: number): Promise<User | null>{
         return this.userRepository.findOneBy({id});
+    }
+
+    async findOneById(id: number): Promise<ResponseUserDto | null>{
+        const user = await this.userRepository.findOneBy({id});
+        if (user){
+            const userDto: ResponseUserDto = {
+                name: user.name,
+                username: user.username,
+                lastname: user.lastname,
+                isActive: user.isActive,
+            }
+            return userDto;
+        }
+        return null
     }
 
     findOneByUsername(username: string): Promise<User| null>{
