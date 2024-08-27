@@ -5,6 +5,10 @@ import { CreatUserDto } from 'src/users/dto/creat.user.dto';
 import { User } from 'src/users/user.entity';
 import { AuthGuard } from './auth.guard';
 
+interface AuthenticatedRequest extends Request {
+    user: any;
+}
+
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService){}
@@ -23,7 +27,7 @@ export class AuthController {
     //i added this get just for testing guard
     @Get('getProfile')
     @UseGuards(AuthGuard)
-    async getProfile(@Request() req: Request): Promise<string>{
-        return "Authorized";
+    async getProfile(@Request() req: AuthenticatedRequest): Promise<any>{
+        return req.user;
     }
 }

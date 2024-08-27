@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put} from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards} from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { User } from "./user.entity";
 import { CreatUserDto } from "./dto/creat.user.dto";
 import { UpdateUserDto } from "./dto/update.user.dto";
+import { AuthGuard } from "src/auth/auth.guard";
 
 
 @Controller('users')
@@ -12,6 +13,12 @@ export class UsersController{
     @Get('all')
     async getAll(): Promise<User[]>{
         return this.userService.findAll();
+    }
+
+    @Get('user/:id')
+    @UseGuards(AuthGuard)
+    async getUserById(@Param('id') id: number): Promise<User | null>{
+        return this.userService.findOne(id);
     }
 
     @Post('createUser')
