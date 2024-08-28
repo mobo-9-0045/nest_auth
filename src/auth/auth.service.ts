@@ -33,8 +33,4 @@ export class AuthService {
         createUserDto.password = encryptedPasswor;
         return await this.userService.creatUser(createUserDto);
     }
-
-    async changePassword(changePasswordDto: changePasswordDto): Promise<User | null>{
-        return this.userService.changePassword(changePasswordDto);
-    }
 }
