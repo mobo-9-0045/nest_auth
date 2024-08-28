@@ -3,5 +3,4 @@ export class CreatUserDto{
     lastname: string;
     username: string;
     password: string;
-    isActive: boolean;
 }
