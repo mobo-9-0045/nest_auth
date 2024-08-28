@@ -68,10 +68,10 @@ export class UsersService{
         return userDto;
     }
 
-    async changePassword(changePasswordDto: changePasswordDto): Promise<User | null>{
-        const user = await this.findOneByUsername(changePasswordDto.username);
+    async changePassword(username: string, changePasswordDto: changePasswordDto): Promise<User | null>{
+        const user = await this.findOneByUsername(username);
         if (!user){
-            throw new Error(`User with username ${changePasswordDto.username} not found`);
+            throw new Error(`User with username ${username} not found`);
         }
 
         const oldpassword = decryption(user.password);

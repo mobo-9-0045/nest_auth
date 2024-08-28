@@ -8,7 +8,7 @@ import { ResponseUserDto } from "./dto/res.user.dto";
 import { changePasswordDto } from "src/auth/dto/auth.changepassword.dto";
 
 interface AuthenticatedRequest extends Request {
-    user: any;
+    user: User;
 }
 
 @Controller('users')
@@ -39,8 +39,9 @@ export class UsersController{
 
     @Put('changePassword')
     @UseGuards(AuthGuard)
-    async changePassword(@Body() changePasswordDto: changePasswordDto): Promise<User | null>{
-        return await this.userService.changePassword(changePasswordDto);
+    async changePassword(@Request() req: AuthenticatedRequest, @Body() changePasswordDto: changePasswordDto): Promise<User | null>{
+        const username = req.user.username;
+        return await this.userService.changePassword(username, changePasswordDto);
     }
 
     @Delete('deleteUser/:id')
