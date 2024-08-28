@@ -28,7 +28,8 @@ export class UsersController{
     }
 
     @Put('updateUser/:id')
-    async updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<User | null>{
+    @UseGuards(AuthGuard)
+    async updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<ResponseUserDto | null>{
         return this.userService.update(id, updateUserDto);
     }
 

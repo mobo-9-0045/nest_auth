@@ -5,6 +5,7 @@ import { CreatUserDto } from 'src/users/dto/creat.user.dto';
 import { User } from 'src/users/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { decryption, encryption } from './encryption';
+import { changePasswordDto } from './dto/auth.changepassword.dto';
 
 
 @Injectable()
@@ -31,5 +32,9 @@ export class AuthService {
         const encryptedPasswor: string = encryption(createUserDto.password);
         createUserDto.password = encryptedPasswor;
         return await this.userService.creatUser(createUserDto);
+    }
+
+    async changePassword(changePasswordDto: changePasswordDto): Promise<User | null>{
+        return this.userService.changePassword(changePasswordDto);
     }
 }

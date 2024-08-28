@@ -5,6 +5,8 @@ import { Repository, UpdateResult } from "typeorm";
 import { CreatUserDto } from "./dto/creat.user.dto";
 import { UpdateUserDto } from "./dto/update.user.dto";
 import { ResponseUserDto } from "./dto/res.user.dto";
+import { changePasswordDto } from "src/auth/dto/auth.changepassword.dto";
+import { decryption, encryption } from "src/auth/encryption";
 
 @Injectable()
 export class UsersService{
@@ -50,13 +52,38 @@ export class UsersService{
         return this.userRepository.save(user);
     }
 
-    async update(id: number, updateUserDto: UpdateUserDto): Promise<User | null>{
+    async update(id: number, updateUserDto: UpdateUserDto): Promise<ResponseUserDto | null>{
         const user = await this.findOne(id);
         if (!user){
             throw new Error(`User with ID ${id} not found`);
         }
         this.userRepository.merge(user, updateUserDto);
-        return this.userRepository.save(user);
+        this.userRepository.save(user);
+        const userDto: ResponseUserDto = {
+            name: user.name,
+            username: user.username,
+            lastname: user.lastname,
+            isActive: user.isActive,
+        }
+        return userDto;
+    }
+
+    async changePassword(changePasswordDto: changePasswordDto): Promise<User | null>{
+        const user = await this.findOneByUsername(changePasswordDto.username);
+        if (!user){
+            throw new Error(`User with username ${changePasswordDto.username} not found`);
+        }
+        // compare old password first
+        // ecnrypt new password and merge
+
+        const oldpassword = decryption(user.password);
+        console.log('old password : ', oldpassword);
+        if (oldpassword == changePasswordDto.oldpassword){
+            changePasswordDto.password = encryption(changePasswordDto.password);
+            this.userRepository.merge(user, changePasswordDto);
+            return this.userRepository.save(user);
+        }
+        return null;
     }
 
     async delete(id: number): Promise<User | null>{
