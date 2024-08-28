@@ -73,11 +73,8 @@ export class UsersService{
         if (!user){
             throw new Error(`User with username ${changePasswordDto.username} not found`);
         }
-        // compare old password first
-        // ecnrypt new password and merge
 
         const oldpassword = decryption(user.password);
-        console.log('old password : ', oldpassword);
         if (oldpassword == changePasswordDto.oldpassword){
             changePasswordDto.password = encryption(changePasswordDto.password);
             this.userRepository.merge(user, changePasswordDto);
