@@ -3,7 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import { Http2ServerRequest } from "http2";
 
 @Injectable()
-export class AuthGuard implements CanActivate{
+export class AuthGuarde implements CanActivate{
     constructor(private jawtService: JwtService){}
 
     async canActivate(context: ExecutionContext): Promise<boolean>{

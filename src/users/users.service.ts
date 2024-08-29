@@ -90,4 +90,18 @@ export class UsersService{
         }
         return this.userRepository.remove(user);
     }
+
+    async createUserFromGoogle(user: any){
+        const newUser = this.userRepository.create({
+            name: user.givename,
+            username: user.username,
+            email: user.email,
+            lastname: user.lastName,
+        })
+        return this.userRepository.save(newUser);
+    }
+
+    async findOneByEmail(email: any): Promise<User | null>{
+        return this.userRepository.findOne({where :{email}});
+    }
 }
