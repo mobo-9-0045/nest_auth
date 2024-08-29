@@ -23,15 +23,11 @@ export class AuthService {
         return this.generateJwtToken(userFromDb);
     }
 
-    async googleLogin(req: any) {
+    async googleLogin(req: any): Promise<string> {
         if (!req.user) {
             return 'No user from Google';
         }
-        return {
-            message: 'User information from Google',
-            user: req.user,
-            accessToken: this.jwtService.sign(req.user),
-        };
+        return req.user.access_token;
     }
 
     async loggin(singinDto: SingingDto): Promise<string>{
