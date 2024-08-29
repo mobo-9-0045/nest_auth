@@ -12,7 +12,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google'){
             callbackURL: 'http://localhost:3000/auth/google/callback',
             scope: ['email', 'profile'],
         });
-        console.log('Callback URL:', 'http://localhost:3000/auth/google/callback');
     }
 
     async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any>{
