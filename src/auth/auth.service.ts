@@ -5,14 +5,34 @@ import { CreatUserDto } from 'src/users/dto/creat.user.dto';
 import { User } from 'src/users/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { decryption, encryption } from './encryption';
-import { changePasswordDto } from './dto/auth.changepassword.dto';
 
 
 @Injectable()
 export class AuthService {
     constructor (private userService: UsersService,
                 private jwtService: JwtService
-                ){}
+                )
+                {}
+    
+    async validateUserByGoogle(user: any): Promise<any>{
+        const userFromDb = await this.userService.findOneByEmail(user.email);
+        if (!userFromDb){
+            const newUser = await this.userService.createUserFromGoogle(user);
+            return this.generateJwtToken(newUser);
+        }
+        return this.generateJwtToken(userFromDb);
+    }
+
+    async googleLogin(req: any) {
+        if (!req.user) {
+            return 'No user from Google';
+        }
+        return {
+            message: 'User information from Google',
+            user: req.user,
+            accessToken: this.jwtService.sign(req.user),
+        };
+    }
 
     async loggin(singinDto: SingingDto): Promise<string>{
         const user = await this.userService.findOneByUsername(singinDto.username);
@@ -32,5 +52,12 @@ export class AuthService {
         const encryptedPasswor: string = encryption(createUserDto.password);
         createUserDto.password = encryptedPasswor;
         return await this.userService.creatUser(createUserDto);
+    }
+
+    generateJwtToken(user: any) {
+        const payload = { username: user.username, sub: user.id };
+        return {
+            access_token: this.jwtService.sign(payload),
+        };
     }
 }

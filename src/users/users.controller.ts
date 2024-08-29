@@ -3,7 +3,7 @@ import { UsersService } from "./users.service";
 import { User } from "./user.entity";
 import { CreatUserDto } from "./dto/creat.user.dto";
 import { UpdateUserDto } from "./dto/update.user.dto";
-import { AuthGuard } from "src/auth/auth.guard";
+import { AuthGuarde } from "src/auth/auth.guard";
 import { ResponseUserDto } from "./dto/res.user.dto";
 import { changePasswordDto } from "src/auth/dto/auth.changepassword.dto";
 
@@ -21,7 +21,7 @@ export class UsersController{
     }
 
     @Get('user/:id')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuarde)
     async getUserById(@Param('id') id: number): Promise<ResponseUserDto | null>{
         return this.userService.findOneById(id);
     }
@@ -32,13 +32,13 @@ export class UsersController{
     }
 
     @Put('updateUser/:id')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuarde)
     async updateUser(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto): Promise<ResponseUserDto | null>{
         return this.userService.update(id, updateUserDto);
     }
 
     @Put('changePassword')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuarde)
     async changePassword(@Request() req: AuthenticatedRequest, @Body() changePasswordDto: changePasswordDto): Promise<User | null>{
         const username = req.user.username;
         return await this.userService.changePassword(username, changePasswordDto);
@@ -50,7 +50,7 @@ export class UsersController{
     }
 
     @Get('getProfile')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuarde)
     async getProfile(@Request() req: AuthenticatedRequest): Promise<any>{
         return req.user;
     }
