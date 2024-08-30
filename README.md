@@ -144,7 +144,7 @@ exemple :
 **Response:**
 ```json
 {
-  "id": id.value,
+  "id": "1",
   "name": "name.value",
   "lastname": "lastname.value",
   "username": "username.value",
@@ -222,9 +222,9 @@ token must be present in header else u will get 401 Unauthroized Expection
   "id": 1,
   "username": "john_doe",
   "name" = "name";
-  "lastname" = res.data.lastname;
-  "username" = res.data.username;
-  "isActive" = res.data.isActive;
+  "lastname" = "lastname";
+  "username" = "username";
+  "isActive" = "false";
 }
 ```
 
