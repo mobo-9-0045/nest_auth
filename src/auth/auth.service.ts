@@ -39,7 +39,7 @@ export class AuthService {
         if (decryptedPassword !== singinDto.password){
             throw new UnauthorizedException();
         }
-        const payload = {sub: user.id, username: user.username};
+        const payload = {id: user.id, username: user.username};
         const access_tokne = await this.jwtService.signAsync(payload);
         return access_tokne;
     }
@@ -51,7 +51,7 @@ export class AuthService {
     }
 
     generateJwtToken(user: any) {
-        const payload = { username: user.username, sub: user.id };
+        const payload = { username: user.username, id: user.id };
         return {
             access_token: this.jwtService.sign(payload),
         };
