@@ -221,10 +221,10 @@ token must be present in header else u will get 401 Unauthroized Expection
 {
   "id": 1,
   "username": "john_doe",
-  "name" = "name",
-  "lastname" = "lastname",
-  "username" = "username",
-  "isActive" = "false",
+  "name": "name",
+  "lastname": "lastname",
+  "username": "username",
+  "isActive": "false",
 }
 ```
 
