@@ -4,7 +4,8 @@ import { UsersService } from 'src/users/users.service';
 import { CreatUserDto } from 'src/users/dto/creat.user.dto';
 import { User } from 'src/users/user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { decryption, encryption } from './encryption';
+import { decryption, encryption, generateotp} from './encryption';
+import { ValidateOtpDto } from './dto/auth.validateotp.dto';
 
 
 @Injectable()
@@ -55,5 +56,24 @@ export class AuthService {
         return {
             access_token: this.jwtService.sign(payload),
         };
+    }
+
+    async genereateOtp(user: User): Promise<number>{
+        user.otpCode = generateotp();
+        await this.userService.saveUser(user);
+        return user.otpCode;
+    }
+
+    async verifyOtp(user: User, validateOtpDto: ValidateOtpDto): Promise<User | null>{
+        const usr = await this.userService.findOneByEmail(validateOtpDto.email);
+        console.log('email :', validateOtpDto.email);
+        console.log('user : ', user);
+        if (usr){
+            console.log('user : ', usr);
+            usr.isActive = true;
+            usr.otpCode = 0;
+            this.userService.saveUser(usr);
+        }
+        return usr;
     }
 }

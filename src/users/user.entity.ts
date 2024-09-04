@@ -22,5 +22,8 @@ export class User {
 
   @Column({ default: false })
   isActive: boolean;
+
+  @Column({nullable: true})
+  otpCode: number;
   
 }
