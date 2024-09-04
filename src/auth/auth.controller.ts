@@ -5,6 +5,8 @@ import { CreatUserDto } from 'src/users/dto/creat.user.dto';
 import { User } from 'src/users/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { Http2ServerRequest } from 'http2';
+import { AuthGuarde } from './auth.guard';
+import { ValidateOtpDto } from './dto/auth.validateotp.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -31,5 +33,19 @@ export class AuthController {
     async googleAuthRedirect(@Req() req: any, @Res() res: any) {
         const token = await this.authService.googleLogin(req);
         res.redirect(`http://localhost:3001/callback?token=${token}`);
+    }
+
+    @Get('email/getotp')
+    @UseGuards(AuthGuarde)
+    async getOtp(@Req() req: any): Promise<number>{
+        return await this.authService.genereateOtp(req.user);
+        // i should use authservice to send it to an email
+        // for now i will print it in server
+    }
+
+    @Post('email/verifyotp')
+    @UseGuards(AuthGuarde)
+    async verifyemail(@Req() req: any, @Body() validateOtpDto: ValidateOtpDto): Promise<User | null>{
+        return await this.authService.verifyOtp(req.user, validateOtpDto);
     }
 }

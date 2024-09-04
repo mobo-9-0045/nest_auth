@@ -104,4 +104,8 @@ export class UsersService{
     async findOneByEmail(email: any): Promise<User | null>{
         return this.userRepository.findOne({where :{email}});
     }
+
+    async saveUser(user: User): Promise<User>{
+        return this.userRepository.save(user);
+    }
 }
