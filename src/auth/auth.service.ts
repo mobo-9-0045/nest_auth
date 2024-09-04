@@ -66,10 +66,7 @@ export class AuthService {
 
     async verifyOtp(user: User, validateOtpDto: ValidateOtpDto): Promise<User | null>{
         const usr = await this.userService.findOneByEmail(validateOtpDto.email);
-        console.log('email :', validateOtpDto.email);
-        console.log('user : ', user);
         if (usr){
-            console.log('user : ', usr);
             usr.isActive = true;
             usr.otpCode = 0;
             this.userService.saveUser(usr);
