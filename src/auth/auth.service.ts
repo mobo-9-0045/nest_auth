@@ -6,7 +6,8 @@ import { User } from 'src/users/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { decryption, encryption, generateotp} from './encryption';
 import { ValidateOtpDto } from './dto/auth.validateotp.dto';
-
+import nodemailer from 'nodemailer';
+import { ResponseUserDto } from 'src/users/dto/res.user.dto';
 
 @Injectable()
 export class AuthService {
@@ -64,12 +65,51 @@ export class AuthService {
         return user.otpCode;
     }
 
+    async sendEmail(otp: number, user: User): Promise<ResponseUserDto | null>{
+        const usr = await this.userService.findOne(user.id);
+        if (usr){
+            const transporter = nodemailer?.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                auth:{
+                    user: 'abdelilahoman@gmail.com',
+                    pass: 'powi wpuk dsxx zhqn',
+                },
+            });
+            const mailOptions = {
+                from: 'abdelilahoman@gmail.com',
+                to: 'abdelilahoman@hotmail.com',
+                subject: 'test',
+                text: `your otp ${otp}`
+            }
+            try{
+                const info = await transporter?.sendMail(mailOptions);
+                console.log('mail sent : ', info?.response);
+            }
+            catch(error){
+                console.log('error : ', error);
+            }
+            const userDto: ResponseUserDto = {
+                name: user.name,
+                username: user.username,
+                lastname: user.lastname,
+                isActive: user.isActive,
+            }
+            return userDto;
+        }
+        return null;
+    }
+
     async verifyOtp(user: User, validateOtpDto: ValidateOtpDto): Promise<User | null>{
         const usr = await this.userService.findOneByEmail(validateOtpDto.email);
         if (usr){
-            usr.isActive = true;
-            usr.otpCode = 0;
-            this.userService.saveUser(usr);
+            if (usr.otpCode == validateOtpDto.otp){
+                console.log('your email is verified');
+                usr.isActive = true;
+                usr.otpCode = 0;
+                this.userService.saveUser(usr);
+            }
         }
         return usr;
     }

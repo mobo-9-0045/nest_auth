@@ -7,6 +7,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { Http2ServerRequest } from 'http2';
 import { AuthGuarde } from './auth.guard';
 import { ValidateOtpDto } from './dto/auth.validateotp.dto';
+import { ResponseUserDto } from 'src/users/dto/res.user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -37,8 +38,9 @@ export class AuthController {
 
     @Get('email/getotp')
     @UseGuards(AuthGuarde)
-    async getOtp(@Req() req: any): Promise<number>{
-        return await this.authService.genereateOtp(req.user);
+    async getOtp(@Req() req: any): Promise<ResponseUserDto | null>{
+        const otp: number = await this.authService.genereateOtp(req.user);
+        return await this.authService.sendEmail(otp, req.user);
         // i should use authservice to send it to an email
         // for now i will print it in server
     }
