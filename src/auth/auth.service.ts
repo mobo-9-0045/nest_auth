@@ -74,7 +74,7 @@ export class AuthService {
                 secure: true,
                 auth:{
                     user: 'abdelilahoman@gmail.com',
-                    pass: 'powi wpuk dsxx zhqn',
+                    pass: 'NOTWORKING',
                 },
             });
             const mailOptions = {
