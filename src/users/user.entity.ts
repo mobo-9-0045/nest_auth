@@ -5,13 +5,25 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({nullable : false})
   name: string;
+
+  @Column({nullable : false})
+  email: string;
 
   @Column()
   lastname: string;
 
-  @Column({ default: true })
+  @Column({nullable: false})
+  username: string;
+
+  @Column({nullable: true})
+  password: string;
+
+  @Column({ default: false })
   isActive: boolean;
+
+  @Column({nullable: true})
+  otpCode: number;
   
 }
