@@ -7,6 +7,8 @@ import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ProjectModule } from './project/project.module';
+import { Project } from './project/project.entity';
 
 
 @Module({
@@ -21,11 +23,12 @@ import { ConfigModule } from '@nestjs/config';
       database: 'postgresql',
       username: 'mobo',
       password: '5500',
-      entities: [User],
+      entities: [User, Project],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
+    ProjectModule,
   ],
   controllers: [AppController],
   providers: [AppService],

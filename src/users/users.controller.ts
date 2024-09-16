@@ -16,6 +16,7 @@ export class UsersController{
     constructor(private readonly userService: UsersService){}
 
     @Get('all')
+    @UseGuards(AuthGuarde)
     async getAll(): Promise<User[]>{
         return this.userService.findAll();
     }

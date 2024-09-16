@@ -21,7 +21,11 @@ export class UsersService{
     }
 
     async findOneById(id: number): Promise<ResponseUserDto | null>{
-        const user = await this.userRepository.findOneBy({id});
+        const user = await this.userRepository.findOne({
+            where: { id },
+            relations: ['projects'],
+        });
+        console.log('user: ', user);
         if (user){
             const userDto: ResponseUserDto = {
                 name: user.name,
