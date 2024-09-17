@@ -11,7 +11,7 @@ import { GoogleStrategy } from './google.strategy';
     JwtModule.register({
       global: true,
       secret: "JWT SUPER SECRET",
-      signOptions: {expiresIn: '60s'}
+      signOptions: {expiresIn: '24h'}
     }),
   ],
   controllers: [AuthController],
