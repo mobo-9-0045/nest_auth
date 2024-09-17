@@ -35,7 +35,23 @@ export class ProjectService{
             });
             if (user.id == project?.user.id){
                 this.projectRepository.merge(project, updateProjectDto);
-                return this.projectRepository.save(project);
+                return await this.projectRepository.save(project);
+            }
+            return null;
+        }
+        catch(error){
+            return null
+        }
+    }
+
+    async deleteProject(id: number, user: User): Promise<Project | null>{
+        try{
+            const project = await this.projectRepository.findOne({
+                where: {id},
+                relations: ['user'],
+            });
+            if (user.id == project?.user.id){
+                return await this.projectRepository.remove(project);
             }
             return null;
         }
