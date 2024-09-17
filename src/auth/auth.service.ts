@@ -90,13 +90,7 @@ export class AuthService {
             catch(error){
                 console.log('error : ', error);
             }
-            const userDto: ResponseUserDto = {
-                name: user.name,
-                username: user.username,
-                lastname: user.lastname,
-                isActive: user.isActive,
-            }
-            return userDto;
+            return user;
         }
         return null;
     }

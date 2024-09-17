@@ -25,13 +25,13 @@ export class UsersService{
             where: { id },
             relations: ['projects'],
         });
-        console.log('user: ', user);
         if (user){
             const userDto: ResponseUserDto = {
                 name: user.name,
                 username: user.username,
                 lastname: user.lastname,
                 isActive: user.isActive,
+                projects: user.projects,
             }
             return userDto;
         }
@@ -57,7 +57,10 @@ export class UsersService{
     }
 
     async update(id: number, updateUserDto: UpdateUserDto): Promise<ResponseUserDto | null>{
-        const user = await this.findOne(id);
+        const user = await this.userRepository.findOne({
+            where: { id },
+            relations: ['projects'],
+        });
         if (!user){
             throw new Error(`User with ID ${id} not found`);
         }
@@ -68,6 +71,7 @@ export class UsersService{
             username: user.username,
             lastname: user.lastname,
             isActive: user.isActive,
+            projects: user.projects,
         }
         return userDto;
     }

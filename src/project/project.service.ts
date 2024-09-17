@@ -4,6 +4,7 @@ import { Project } from "./project.entity";
 import { Repository } from "typeorm";
 import { CreateProjectDto } from "./dto/create.project.dto";
 import { User } from "src/users/user.entity";
+import { UpdateProjectDto } from "./dto/update.project.dto";
 
 @Injectable()
 export class ProjectService{
@@ -23,6 +24,23 @@ export class ProjectService{
         }
         catch(error){
             throw new Error(`Project creation failed ${error}`);
+        }
+    }
+    
+    async updateProject(updateProjectDto: UpdateProjectDto, user: User, id: number): Promise<Project | null>{
+        try{
+            const project = await this.projectRepository.findOne({
+                where: {id},
+                relations: ['user'],
+            });
+            if (user.id == project?.user.id){
+                this.projectRepository.merge(project, updateProjectDto);
+                return this.projectRepository.save(project);
+            }
+            return null;
+        }
+        catch(error){
+            return null
         }
     }
 }
