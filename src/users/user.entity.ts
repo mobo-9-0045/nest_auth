@@ -1,5 +1,3 @@
-import { Project } from 'src/project/project.entity';
-import { Skill } from 'src/skills/skill.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity()
@@ -27,10 +25,4 @@ export class User {
 
   @Column({ nullable: true })
   otpCode: number;
-
-  @OneToMany(() => Project, (project) => project.user, {nullable: true})
-  projects: Project[];
-
-  @OneToMany(() => Skill, (skill) => skill.user, {nullable: true})
-  skills: Skill[];
 }
