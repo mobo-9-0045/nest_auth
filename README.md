@@ -38,6 +38,7 @@ $ npm install
 - User Login
 - JWT Token Generation
 - Token-based Authentication
+- Google Authentication
 
 ## Technologies Used
 
