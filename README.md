@@ -194,6 +194,7 @@ token must be present in header else u will get 401 Unauthroized Expection
 {
   "Authorization": "Bearer jwt_token_here"
 }
+
 **Response:**
 ```json
 {
@@ -203,7 +204,7 @@ token must be present in header else u will get 401 Unauthroized Expection
 ```
 
 ### 4. **Fetch other user details**
-**Endpoint:** `POST <your-host>/users/user/${id}`
+**Endpoint:** `GET <your-host>/users/user/${id}`
 exemple :
 ![alt text](image-3.png)
 
