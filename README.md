@@ -239,7 +239,7 @@ This endpoint initiates the OAuth2 authentication flow with Google. The user is 
 **Endpoint:** `POST <your-host>/auth/google/callback
 
 This endpoint handles the callback after a user has authenticated with Google. It will create or log in the user with the Google account.
-in my code i retur a response with redirectio to a test front end with token in the url
+in my code i return a response with redirection to a test frontend with token in the url
 ```javascript
 res.redirect(`http://front-end-hot/front-end-callbakc-page?token=${token}`);
 ```
